@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.springsource.org/libs-snapshot" }
+        maven { url "http://www.eveoh.nl/files/maven2"}
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:0.5.0.BUILD-SNAPSHOT'
+        classpath 'nl.eveoh:gradle-aspectj:1.0'
+    }
+}
+
+project.ext {
+    aspectjVersion = '1.8.0.M1'
+}
+
+apply plugin: 'java'
+apply plugin: 'aspectj'
+apply plugin: 'spring-boot'
+//apply plugin: 'application'
+
+mainClassName = "ui.Application"
+group = 'spring'
+version = '0.0.1-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://repo.springsource.org/libs-snapshot"
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-aop:0.5.0.BUILD-SNAPSHOT'
+    compile 'javax.inject:javax.inject:1'
+    compile 'org.springframework:spring-aspects:4.0.0.M3'
+    aspectpath 'org.springframework:spring-aspects:4.0.0.M3'
+}
+
+//apply from: 'aspectj.gradle'

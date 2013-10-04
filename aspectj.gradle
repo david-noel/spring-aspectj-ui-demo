@@ -1,0 +1,41 @@
+// manual aspectj compile time weave
+// use this or the gradle plugin
+configurations {
+    ajc
+    aspects
+    aspectCompile
+    compile {
+        extendsFrom aspects
+    }
+}
+dependencies {
+    ajc "org.aspectj:aspectjtools:1.7.3"
+    compile "org.aspectj:aspectjrt:1.7.3"
+    aspects "org.springframework:spring-aspects:4.0.0.M3"
+    aspectCompile "javax.persistence:persistence-api:1.0"
+    aspectCompile "org.springframework:spring-tx:4.0.0.M3"
+    aspectCompile "org.springframework:spring-orm:4.0.0.M3"
+
+}
+
+compileJava {
+    sourceCompatability = '1.6'
+    targetCompatability = '1.6'
+
+    doLast {
+        ant.taskdef(resource: "org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties",
+                classpath: configurations.ajc.asPath)
+        ant.iajc(source: sourceCompatability, target: targetCompatability, destDir: sourceSets.main.output.classesDir.absolutePath,
+                maxmem: "512m", fork: "true",
+                aspectPath: configurations.aspects.asPath,
+                sourceRootCopyFilter: "**/.svn/*,**/*.java",
+                classpath: "${configurations.compile.asPath};${configurations.aspectCompile.asPath}")
+                {
+                    sourceroots {
+                        sourceSets.main.java.srcDirs.each {
+                            pathelement(location: it.absolutePath)
+                        }
+                    }
+                }
+    }
+}
