@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Value;
 public class ManualButton extends JButton implements ActionListener {
 
     @Inject
+    private Message message;
+
+    @Inject
     private Service service;
 
     @Value("${manualTitle:Manual Button}")
@@ -19,6 +22,7 @@ public class ManualButton extends JButton implements ActionListener {
 
     @PostConstruct
     public void init() {
+        System.out.println("called message from ManualButton.init : " + message.getMessage());
         setText(buttonTitle);
         addActionListener(this);
         System.out.println("Created ManualButton");
