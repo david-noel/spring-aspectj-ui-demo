@@ -26,7 +26,7 @@ public class ManagedBeanDialog extends JDialog {
 
         ManualButton mButton = Application.wire(new ManualButton());
         FancyButton fButton = new FancyButton();
-        //Application.wire(fButton);
+        Application.wire(fButton);
         JPanel p = new JPanel();
         p.setLayout(new BorderLayout());
         add(mButton, BorderLayout.NORTH);
